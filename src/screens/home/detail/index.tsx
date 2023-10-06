@@ -5,10 +5,13 @@ import {
   Image,
   ImageStyle,
   ViewStyle,
+  FlatList,
+  ListRenderItem,
 } from 'react-native';
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useMemo, useState} from 'react';
 import {CompositeScreenProps} from '@react-navigation/native';
-import {RadioButton, Screen} from '../../../components';
+import {Button, RadioButton, Screen} from '../../../components';
+import {useStoreContext} from '../../../context/store-context';
 
 const HEADER: ViewStyle = {
   paddingHorizontal: 12,
@@ -50,9 +53,13 @@ const REFUND: ViewStyle = {
 
 export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
   const {navigation, route} = props;
+  const {state, dispatch} = useStoreContext();
 
   const [selectedOption, setSelectedOption] = useState<number | null>(1);
   const refundable = true;
+
+  const isGuest = useMemo(() => selectedOption === 2, [selectedOption]);
+  const guests = useMemo(() => state.guests, [state.guests]);
 
   useEffect(() => {
     console.log('Pass Props ===> ', route.params);
@@ -62,8 +69,16 @@ export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
     setSelectedOption(option);
   };
 
+  const handleNavigate = () => navigation.navigate('App.Home.Detail.Guest');
+
+  const renderItem: ListRenderItem<ItemT> = info => {
+    const {index, item} = info;
+    console.log('Render Item ==> ', info);
+    return null;
+  };
+
   return (
-    <Screen preset="scroll">
+    <Screen preset="scroll" style={{flexGrow: 1}}>
       {/* HEADER */}
       <View style={HEADER}>
         <Text style={LABEL}>Detail Pesanan</Text>
@@ -97,18 +112,43 @@ export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
         )}
       </View>
       {/* CONTENT */}
-      <RadioButton
-        label="Saya memesan untuk diri sendiri"
-        value={1}
-        selected={selectedOption === 1}
-        onSelect={handleOptionSelect}
-      />
-      <RadioButton
-        label="Saya memesan untuk orang lain"
-        value={2}
-        selected={selectedOption === 2}
-        onSelect={handleOptionSelect}
-      />
+      <View>
+        <Text style={LABEL}>Detail Pemesan</Text>
+
+        <RadioButton
+          label="Saya memesan untuk diri sendiri"
+          value={1}
+          selected={selectedOption === 1}
+          onSelect={handleOptionSelect}
+        />
+        <RadioButton
+          label="Saya memesan untuk orang lain"
+          value={2}
+          selected={selectedOption === 2}
+          onSelect={handleOptionSelect}
+        />
+
+        {/* GUEST */}
+        {isGuest && (
+          <View>
+            <FlatList
+              data={guests}
+              renderItem={renderItem}
+              scrollEnabled={false}
+              ListHeaderComponent={<Text style={LABEL}>Data Tamu</Text>}
+              ListEmptyComponent={<Text>Belum ada data tamu</Text>}
+              ListFooterComponent={
+                <Button
+                  label="Ubah Data Tamu"
+                  onPress={handleNavigate}
+                  preset="link"
+                  labelStyle={{alignSelf: 'flex-end'}}
+                />
+              }
+            />
+          </View>
+        )}
+      </View>
     </Screen>
   );
 };
