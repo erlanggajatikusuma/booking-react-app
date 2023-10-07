@@ -8,14 +8,25 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
 import {Screen} from '../../components';
 import {getBookingDetail} from '../../services';
-import {useStoreContext} from '../../context/store-context';
+import {color} from '../../theme';
+
+const ITEM: ViewStyle = {
+  borderWidth: 1,
+  borderColor: color.borderGray,
+  borderRadius: 12,
+  padding: 16,
+  marginHorizontal: 16,
+  backgroundColor: color.white,
+};
 
 const IMAGE: ImageStyle = {
   width: '100%',
   height: 150,
+  borderRadius: 12,
 };
 
 function arePropsEqual(prevProps: any, nextProps: any) {
@@ -27,7 +38,6 @@ function arePropsEqual(prevProps: any, nextProps: any) {
 
 const Item = React.memo(
   ({index, item, navigation}: {index: number; item: any; navigation?: any}) => {
-    console.log('render Item ==> ', index);
     const name = item?.chosen_hotel_detail?.hotel_name || 'Hotel';
     const image = {uri: item?.chosen_hotel_detail?.images[0]?.thumbnail};
 
@@ -35,7 +45,7 @@ const Item = React.memo(
       navigation.navigate('App.Home.Detail', {...item});
 
     return (
-      <View key={index}>
+      <View key={index} style={ITEM}>
         <TouchableOpacity onPress={handleNavigate}>
           <Image source={image} style={IMAGE} />
           <Text>{name}</Text>
@@ -49,8 +59,6 @@ const Item = React.memo(
 
 export const HomeScreen: FC<CompositeScreenProps<any, any>> = props => {
   const {navigation} = props;
-
-  const {state, dispatch} = useStoreContext();
 
   const [hotel, setHotel] = useState<Array<any>>([]);
 
@@ -69,8 +77,11 @@ export const HomeScreen: FC<CompositeScreenProps<any, any>> = props => {
   };
 
   return (
-    <Screen preset="fixed">
-      <FlatList data={hotel} renderItem={renderItem} />
+    <Screen
+      preset="scroll"
+      backgroundColor="lightgray"
+      safeAreaEdges={['top', 'bottom']}>
+      <FlatList data={hotel} renderItem={renderItem} scrollEnabled={false} />
     </Screen>
   );
 };
