@@ -8,14 +8,15 @@ import {
   FlatList,
   ListRenderItem,
 } from 'react-native';
-import React, {FC, useCallback, useEffect, useState} from 'react';
+import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
 import {CompositeScreenProps} from '@react-navigation/native';
-import {Button, Screen} from '../../../../components';
+import {Button, Picker, Screen} from '../../../../components';
 import {useStoreContext} from '../../../../context/store-context';
 
 const SELECTED_OPTION: ViewStyle = {
   flexDirection: 'row',
   alignItems: 'center',
+  //   borderWidth: 1,
 };
 
 const INPUT: ViewStyle = {
@@ -34,30 +35,45 @@ const ICON: ImageStyle = {
 const icon = require('../../../../assets/icon/trash.png');
 
 type ItemProps = {
-  selectedOption?: string;
-  onSelect?: (value: string) => void;
+  handleValueChange?: (itemValue: T, itemIndex: number, id: number) => void;
+  onChangeText?: ((id: number, text: string) => void) | undefined;
   onDelete?: (id: number) => void;
   item: any;
 };
 
 function arePropsEqual(prevProps: any, nextProps: any) {
-  return prevProps.item.latitude === nextProps.item.id;
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.item.name === nextProps.item.name &&
+    prevProps.item.gender === nextProps.item.gender
+  );
 }
 
 const Item = React.memo(
-  ({item, selectedOption, onSelect, onDelete}: ItemProps) => {
-    console.log('Render Item ==> ', item);
-    const handleOptionSelect = useCallback(
-      (value: string) => {
-        onSelect(value);
-      },
-      [onSelect],
-    );
+  ({item, handleValueChange, onChangeText, onDelete}: ItemProps) => {
+    console.log('Render Item ==> ', item.gender);
+    const items = [
+      {label: 'Mr', value: 'Mr'},
+      {label: 'Mrs', value: 'Mrs'},
+    ];
 
     return (
       <View style={SELECTED_OPTION}>
-        <TextInput style={INPUT} />
-        <Button preset="link" onPress={() => onDelete(item?.id)}>
+        <View>
+          <Picker
+            items={items}
+            selectedValue={item.gender}
+            onValueChange={(itemValue, itemIndex) =>
+              handleValueChange(itemValue, itemIndex, item.id)
+            }
+          />
+        </View>
+        <TextInput
+          value={item.name}
+          onChangeText={text => onChangeText(item.id, text)}
+          style={INPUT}
+        />
+        <Button preset="link" onPress={() => onDelete(item.id)}>
           <Image source={icon} style={ICON} />
         </Button>
       </View>
@@ -72,10 +88,32 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
   const {state} = useStoreContext();
 
   const [guests, setGuests] = useState<Array<any>>(state.guests);
-  const [selectedOption, setSelectedOption] = useState<string>('Option 1');
 
-  const handleOptionSelect = (value: string) => {
-    setSelectedOption(value);
+  const isDisabled = useMemo(() => {
+    const disable =
+      guests.length === 0 ||
+      guests.some(guest => guest.name === '' || guest.gender === '');
+    return disable;
+  }, [guests]);
+
+  const handleValueChange = (itemValue: T, itemIndex: number, id: number) => {
+    setGuests(prevState =>
+      prevState.map(guest =>
+        guest.id === id ? {...guest, gender: itemValue} : guest,
+      ),
+    );
+  };
+
+  const handleChangeText = useCallback((id: number, text: string) => {
+    setGuests(prevState =>
+      prevState.map(guest =>
+        guest.id === id ? {...guest, name: text} : guest,
+      ),
+    );
+  }, []);
+
+  const handleDelete = (id: number) => {
+    setGuests(prevState => prevState.filter(guest => guest.id !== id));
   };
 
   const addingGuest = () => {
@@ -89,12 +127,19 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
   };
 
   const renderItem: ListRenderItem<ItemT> = info => {
-    const {index, item} = info;
-    console.log('Item ===> ', item);
+    const {item} = info;
+
     return (
-      <Item item={item} selectedOption="Mr" onSelect={handleOptionSelect} />
+      <Item
+        item={item}
+        handleValueChange={handleValueChange}
+        onChangeText={handleChangeText}
+        onDelete={handleDelete}
+      />
     );
   };
+
+  console.log('button disable ===>  ', isDisabled);
 
   return (
     <Screen preset="scroll">
