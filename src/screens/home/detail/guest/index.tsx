@@ -24,6 +24,7 @@ const LABEL: TextStyle = {
   fontWeight: '600',
   color: color.blue,
   paddingHorizontal: 16,
+  marginBottom: 10,
 };
 
 const ADD_BUTTON: ViewStyle = {

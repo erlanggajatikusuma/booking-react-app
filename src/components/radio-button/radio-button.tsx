@@ -1,5 +1,6 @@
 import React, {useCallback} from 'react';
 import {TouchableOpacity, Text, ViewStyle, TextStyle, View} from 'react-native';
+import {color} from '../../theme';
 
 interface RadioButtonProps {
   label: string;
@@ -29,7 +30,7 @@ const RADIO_INNER: ViewStyle = {
   width: 12,
   height: 12,
   borderRadius: 6,
-  backgroundColor: 'blue',
+  backgroundColor: color.darkBlue,
 };
 
 const LABEL: TextStyle = {
@@ -49,7 +50,7 @@ export const RadioButton: React.FC<RadioButtonProps> = React.memo(
           style={[
             RADIO,
             {
-              borderColor: selected ? 'blue' : 'gray',
+              borderColor: selected ? color.darkBlue : 'gray',
             },
           ]}>
           {selected && <View style={RADIO_INNER} />}

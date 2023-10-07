@@ -2,6 +2,8 @@ export const color = {
   white: '#FFF',
   black: '#000',
   borderGray: 'rgba(128,128,128, 0.5)',
+  darkGray: '#A9A9A9',
+  mediumGray: '#BEBEBE',
   blue: '#6C5ECF',
   darkBlue: '#004492',
   orange: '#e46500',

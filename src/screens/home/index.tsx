@@ -28,8 +28,8 @@ function arePropsEqual(prevProps: any, nextProps: any) {
 const Item = React.memo(
   ({index, item, navigation}: {index: number; item: any; navigation?: any}) => {
     console.log('render Item ==> ', index);
-    const name = item.hotel_name || 'Hotel';
-    const image = {uri: item.images[0]?.thumbnail};
+    const name = item?.chosen_hotel_detail?.hotel_name || 'Hotel';
+    const image = {uri: item?.chosen_hotel_detail?.images[0]?.thumbnail};
 
     const handleNavigate = () =>
       navigation.navigate('App.Home.Detail', {...item});
@@ -39,7 +39,7 @@ const Item = React.memo(
         <TouchableOpacity onPress={handleNavigate}>
           <Image source={image} style={IMAGE} />
           <Text>{name}</Text>
-          <Text>{item.address}</Text>
+          <Text>{item?.chosen_hotel_detail?.address}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -57,7 +57,7 @@ export const HomeScreen: FC<CompositeScreenProps<any, any>> = props => {
   useEffect(() => {
     getBookingDetail().then(result => {
       if (result.success) {
-        const data = [result.data?.get_chosen_hotel?.chosen_hotel_detail];
+        const data = [result.data?.get_chosen_hotel];
         setHotel(data);
       }
     });

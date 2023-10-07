@@ -10,23 +10,6 @@ interface StoreState {
   guests: Guest[];
 }
 
-// type StoreAction =
-//   | UserAction
-//   | ProductsAction
-//   | TokenAction
-//   | WishlistAction
-//   | CartAction;
-
-// const storeReducer = (state: StoreState, action: StoreAction): StoreState => {
-//   return {
-//     userState: userReducer(state.userState, action),
-//     productsState: productsReducer(state.productsState, action),
-//     tokenState: tokenReducer(state.tokenState, action),
-//     wishlistState: wishlistReducer(state.wishlistState, action),
-//     cartState: cartReducer(state.cartState, action),
-//   };
-// };
-
 type StoreAction =
   | {type: 'ADD_GUEST'; payload: Guest}
   | {type: 'REMOVE_GUEST'; payload: number};
@@ -58,13 +41,6 @@ interface StoreContextType {
 const StoreContext = createContext<StoreContextType | undefined>(undefined);
 
 export const StoreProvider: React.FC<{children: ReactNode}> = ({children}) => {
-  //   const [state, dispatch] = useReducer(storeReducer, {
-  //     userState: {user: null},
-  //     productsState: {products: []},
-  //     tokenState: {token: null},
-  //     wishlistState: {wishlist: []},
-  //     cartState: {cart: []},
-  //   });
   const [state, dispatch] = useReducer(storeReducer, initialState);
 
   return (
