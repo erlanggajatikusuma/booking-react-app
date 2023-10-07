@@ -1,22 +1,41 @@
+import {CompositeScreenProps} from '@react-navigation/native';
+import React, {FC, useCallback, useMemo, useState} from 'react';
 import {
-  View,
-  Text,
-  TextInput,
-  ViewStyle,
+  FlatList,
   Image,
   ImageStyle,
-  FlatList,
   ListRenderItem,
+  Text,
+  TextInput,
+  TextStyle,
+  View,
+  ViewStyle,
 } from 'react-native';
-import React, {FC, useCallback, useEffect, useMemo, useState} from 'react';
-import {CompositeScreenProps} from '@react-navigation/native';
 import {Button, Picker, Screen} from '../../../../components';
 import {useStoreContext} from '../../../../context/store-context';
+import {color} from '../../../../theme';
+
+const CONTAINER: ViewStyle = {
+  paddingTop: 20,
+};
+
+const LABEL: TextStyle = {
+  fontSize: 16,
+  fontWeight: '600',
+  color: color.blue,
+  paddingHorizontal: 16,
+};
+
+const ADD_BUTTON: ViewStyle = {
+  alignItems: 'center',
+  marginVertical: 14,
+};
 
 const SELECTED_OPTION: ViewStyle = {
   flexDirection: 'row',
   alignItems: 'center',
-  //   borderWidth: 1,
+  paddingHorizontal: 6,
+  marginVertical: 4,
 };
 
 const INPUT: ViewStyle = {
@@ -25,11 +44,22 @@ const INPUT: ViewStyle = {
   borderWidth: 1,
   borderRadius: 6,
   paddingHorizontal: 12,
+  borderColor: color.borderGray,
 };
 
 const ICON: ImageStyle = {
   width: 24,
   height: 24,
+  tintColor: 'red',
+};
+
+const DELETE_BUTTON: ViewStyle = {
+  marginLeft: 14,
+};
+
+const FOOTER: ViewStyle = {
+  paddingHorizontal: 16,
+  paddingVertical: 24,
 };
 
 const icon = require('../../../../assets/icon/trash.png');
@@ -51,7 +81,6 @@ function arePropsEqual(prevProps: any, nextProps: any) {
 
 const Item = React.memo(
   ({item, handleValueChange, onChangeText, onDelete}: ItemProps) => {
-    console.log('Render Item ==> ', item.gender);
     const items = [
       {label: 'Mr', value: 'Mr'},
       {label: 'Mrs', value: 'Mrs'},
@@ -59,21 +88,22 @@ const Item = React.memo(
 
     return (
       <View style={SELECTED_OPTION}>
-        <View>
-          <Picker
-            items={items}
-            selectedValue={item.gender}
-            onValueChange={(itemValue, itemIndex) =>
-              handleValueChange(itemValue, itemIndex, item.id)
-            }
-          />
-        </View>
+        <Picker
+          items={items}
+          selectedValue={item.gender}
+          onValueChange={(itemValue, itemIndex) =>
+            handleValueChange(itemValue, itemIndex, item.id)
+          }
+        />
         <TextInput
           value={item.name}
           onChangeText={text => onChangeText(item.id, text)}
           style={INPUT}
         />
-        <Button preset="link" onPress={() => onDelete(item.id)}>
+        <Button
+          preset="link"
+          style={DELETE_BUTTON}
+          onPress={() => onDelete(item.id)}>
           <Image source={icon} style={ICON} />
         </Button>
       </View>
@@ -85,9 +115,11 @@ const Item = React.memo(
 export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
   const {navigation} = props;
 
-  const {state} = useStoreContext();
+  const {state, dispatch} = useStoreContext();
 
-  const [guests, setGuests] = useState<Array<any>>(state.guests);
+  const guestStore = useMemo(() => state.guests, [state.guests]);
+
+  const [guests, setGuests] = useState<Array<any>>(guestStore);
 
   const isDisabled = useMemo(() => {
     const disable =
@@ -114,6 +146,12 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
 
   const handleDelete = (id: number) => {
     setGuests(prevState => prevState.filter(guest => guest.id !== id));
+    if (guestStore.length) {
+      dispatch({
+        type: 'REMOVE_GUEST',
+        payload: id,
+      });
+    }
   };
 
   const addingGuest = () => {
@@ -124,6 +162,28 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
       name: '',
     };
     setGuests(prevState => [...prevState, guest]);
+  };
+
+  const handleSave = () => {
+    if (guestStore.length) {
+      const data = guests.flatMap(guest =>
+        guestStore.some(value => value.id === guest.id) ? [] : guest,
+      );
+      data.map(guest => {
+        dispatch({
+          type: 'ADD_GUEST',
+          payload: guest,
+        });
+      });
+    } else {
+      guests.map(guest => {
+        dispatch({
+          type: 'ADD_GUEST',
+          payload: guest,
+        });
+      });
+    }
+    navigation.goBack();
   };
 
   const renderItem: ListRenderItem<ItemT> = info => {
@@ -139,23 +199,35 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
     );
   };
 
-  console.log('button disable ===>  ', isDisabled);
-
   return (
-    <Screen preset="scroll">
+    <Screen preset="scroll" statusBar="light-content">
       <FlatList
         data={guests}
         renderItem={renderItem}
         scrollEnabled={false}
-        ListHeaderComponent={<Text>Data Tamu</Text>}
+        contentContainerStyle={CONTAINER}
+        ListHeaderComponent={<Text style={LABEL}>Data Tamu</Text>}
+        // ListEmptyComponent={<Text style={LABEL}>Belum ada data</Text>}
         ListFooterComponent={
           <Button
             preset="link"
+            style={ADD_BUTTON}
+            labelStyle={{color: color.lightOrange}}
             onPress={addingGuest}
-            label="Tambah data tamu"
+            label="+ Tambah data tamu"
           />
         }
       />
+      <View style={FOOTER}>
+        <Button
+          label="Simpan"
+          style={{
+            backgroundColor: isDisabled ? color.borderGray : color.orange,
+          }}
+          onPress={handleSave}
+          disabled={isDisabled}
+        />
+      </View>
     </Screen>
   );
 };

@@ -6,9 +6,10 @@ import {
   TextStyle,
   TouchableOpacityProps,
 } from 'react-native';
+import {color} from '../../theme';
 
 const BASE: ViewStyle = {
-  backgroundColor: 'blue',
+  backgroundColor: color.blue,
   paddingVertical: 12,
   paddingHorizontal: 8,
   borderRadius: 6,
@@ -24,6 +25,11 @@ const LINK: ViewStyle = {
   alignItems: 'flex-start',
 };
 
+const DISABLED: ViewStyle = {
+  ...BASE,
+  backgroundColor: 'gray',
+};
+
 const BASE_LABEL: TextStyle = {
   color: 'white',
   fontSize: 16,
@@ -32,12 +38,12 @@ const BASE_LABEL: TextStyle = {
 };
 
 const LINK_LABEL: TextStyle = {
-  color: 'blue', // Blue text color for link style
+  color: color.blue, //color.bluetext color for link style
   fontSize: 16,
   paddingHorizontal: 0,
   paddingVertical: 0,
   borderBottomWidth: 1, // ios not support
-  borderColor: 'blue',
+  borderColor: color.blue,
 };
 
 interface ButtonProps extends TouchableOpacityProps {
@@ -49,7 +55,15 @@ interface ButtonProps extends TouchableOpacityProps {
 }
 
 export const Button: React.FC<ButtonProps> = React.memo(
-  ({label, children, style, labelStyle, preset = 'base', ...rest}) => {
+  ({
+    label,
+    children,
+    style,
+    labelStyle,
+    preset = 'base',
+    disabled,
+    ...rest
+  }) => {
     const buttonStyle = preset === 'link' ? LINK : BASE;
     const textLabelStyle = preset === 'link' ? LINK_LABEL : BASE_LABEL;
 
@@ -57,7 +71,10 @@ export const Button: React.FC<ButtonProps> = React.memo(
       <Text style={[textLabelStyle, labelStyle]}>{label}</Text>
     );
     return (
-      <TouchableOpacity style={[buttonStyle, style]} {...rest}>
+      <TouchableOpacity
+        style={[disabled ? DISABLED : buttonStyle, style]}
+        disabled={disabled}
+        {...rest}>
         {/* {label && <Text style={[textLabelStyle, labelStyle]}>{label}</Text>} */}
         {/* {children} */}
         {content}

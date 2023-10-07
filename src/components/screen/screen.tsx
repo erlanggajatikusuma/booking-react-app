@@ -4,7 +4,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  StatusBar as StatusBarRN,
+  StatusBar,
   StatusBarProps,
   StatusBarPropsAndroid,
   View,
@@ -18,14 +18,14 @@ const isIos = Platform.OS === 'ios';
 
 const majorVersionIOS = parseInt(Platform.Version, 10);
 
-const StatusBar = (props: StatusBarPropsAndroid & StatusBarProps) => {
+const CustomStatusBar = (props: StatusBarPropsAndroid & StatusBarProps) => {
   const insets = useSafeAreaInsets();
   const {backgroundColor, barStyle} = props;
   const customHeight = majorVersionIOS < 11 ? insets.top : 0;
 
   return (
     <View style={{height: customHeight, backgroundColor}}>
-      <StatusBarRN
+      <StatusBar
         barStyle={barStyle}
         backgroundColor={backgroundColor}
         {...props}
@@ -49,10 +49,10 @@ function ScreenWithoutScrolling(props: ScreenProps) {
       style={[preset.outer, backgroundStyle]}
       behavior={isIos ? 'padding' : undefined}
       keyboardVerticalOffset={offsets[props.keyboardOffset || 'none']}>
-      <StatusBar
+      <CustomStatusBar
         barStyle={statusBarStyle}
         backgroundColor={statusBarBackgroundColor}
-        translucent={props.statusBarTranslucent}
+        // translucent={props.statusBarTranslucent}
       />
       <SafeAreaView
         edges={props.unsafe ? ['left', 'right'] : safeAreaEdges}
@@ -78,10 +78,10 @@ function ScreenWithScrolling(props: ScreenProps) {
       style={[preset.outer, backgroundStyle]}
       behavior={isIos ? 'padding' : undefined}
       keyboardVerticalOffset={offsets[props.keyboardOffset || 'none']}>
-      <StatusBar
+      <CustomStatusBar
         barStyle={statusBarStyle}
         backgroundColor={statusBarBackgroundColor}
-        translucent={props.statusBarTranslucent}
+        // translucent={props.statusBarTranslucent}
       />
       <ScrollView
         ref={props.scrollViewRef}

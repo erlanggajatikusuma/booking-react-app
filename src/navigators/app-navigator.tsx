@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
 import {DetailScreen, GuestScreen, HomeScreen} from '../screens';
+import {color} from '../theme';
 
 export type AppNavigatorParamList = {
   'App.Home': undefined;
@@ -34,6 +35,9 @@ export const AppNavigator = () => {
           headerShown: true,
           headerTitle: 'Payment Details',
           headerShadowVisible: false,
+          statusBarColor: color.darkBlue,
+          headerStyle: {backgroundColor: color.darkBlue},
+          headerTintColor: color.white,
         }}
         component={DetailScreen}
       />
@@ -44,6 +48,9 @@ export const AppNavigator = () => {
           title: 'Tambah Data Tamu',
           headerBackTitleVisible: false,
           headerShadowVisible: false,
+          statusBarColor: color.darkBlue,
+          headerStyle: {backgroundColor: color.darkBlue},
+          headerTintColor: color.white,
         }}
         component={GuestScreen}
       />

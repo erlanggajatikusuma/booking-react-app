@@ -1,6 +1,6 @@
 import React, {createContext, useContext, useReducer, ReactNode} from 'react';
 
-interface Guest {
+export interface Guest {
   id: number;
   name: string;
   gender: 'Mr' | 'Mrs';

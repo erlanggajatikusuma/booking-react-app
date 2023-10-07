@@ -51,18 +51,36 @@ const REFUND: ViewStyle = {
   justifyContent: 'flex-end',
 };
 
+type ItemProps = {
+  item: any;
+};
+
+const Item = React.memo(({item}: ItemProps) => {
+  console.log('Render Item Guest Payment ===> ', item);
+  return (
+    <View key={item.id}>
+      <Text>{`${item.gender} ${item.name}`}</Text>
+    </View>
+  );
+});
+
 export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
   const {navigation, route} = props;
-  const {state, dispatch} = useStoreContext();
 
-  const [selectedOption, setSelectedOption] = useState<number | null>(1);
+  const {state} = useStoreContext();
+
   const refundable = true;
 
-  const isGuest = useMemo(() => selectedOption === 2, [selectedOption]);
   const guests = useMemo(() => state.guests, [state.guests]);
 
+  const [selectedOption, setSelectedOption] = useState<number | null>(
+    guests.length !== 0 ? 2 : 1,
+  );
+
+  const isGuest = useMemo(() => selectedOption === 2, [selectedOption]);
+
   useEffect(() => {
-    console.log('Pass Props ===> ', route.params);
+    // console.log('Pass Props ===> ', route.params);
   }, [route]);
 
   const handleOptionSelect = (option: number) => {
@@ -72,13 +90,12 @@ export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
   const handleNavigate = () => navigation.navigate('App.Home.Detail.Guest');
 
   const renderItem: ListRenderItem<ItemT> = info => {
-    const {index, item} = info;
-    console.log('Render Item ==> ', info);
-    return null;
+    const {item} = info;
+    return <Item item={item} />;
   };
 
   return (
-    <Screen preset="scroll" style={{flexGrow: 1}}>
+    <Screen preset="scroll" statusBar="light-content">
       {/* HEADER */}
       <View style={HEADER}>
         <Text style={LABEL}>Detail Pesanan</Text>
