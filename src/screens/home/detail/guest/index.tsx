@@ -201,7 +201,10 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
   };
 
   return (
-    <Screen preset="scroll" statusBar="light-content">
+    <Screen
+      preset="scroll"
+      statusBar="light-content"
+      backgroundBar={color.darkBlue}>
       <FlatList
         data={guests}
         renderItem={renderItem}

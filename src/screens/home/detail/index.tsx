@@ -162,7 +162,10 @@ export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
   };
 
   return (
-    <Screen preset="scroll" statusBar="light-content">
+    <Screen
+      preset="scroll"
+      statusBar="light-content"
+      backgroundBar={color.darkBlue}>
       <View style={CONTENT}>
         <Text style={LABEL}>Detail Pesanan</Text>
         <View style={HOTEL}>

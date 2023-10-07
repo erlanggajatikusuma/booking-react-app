@@ -14,6 +14,10 @@ import {Screen} from '../../components';
 import {getBookingDetail} from '../../services';
 import {color} from '../../theme';
 
+const CONTAINER: ViewStyle = {
+  paddingTop: 22,
+};
+
 const ITEM: ViewStyle = {
   borderWidth: 1,
   borderColor: color.borderGray,
@@ -80,6 +84,8 @@ export const HomeScreen: FC<CompositeScreenProps<any, any>> = props => {
     <Screen
       preset="scroll"
       backgroundColor="lightgray"
+      backgroundBar="lightgray"
+      style={CONTAINER}
       safeAreaEdges={['top', 'bottom']}>
       <FlatList data={hotel} renderItem={renderItem} scrollEnabled={false} />
     </Screen>
