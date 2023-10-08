@@ -19,8 +19,9 @@ interface GetFunctionResponse {
 
 export const getBookingDetail = async (): Promise<GetFunctionResponse> => {
   try {
-    const response: AxiosResponse<Array<any>> = await get(API_URL, header);
-    return {success: true, data: response?.chosen_hotel?.data};
+    const response: AxiosResponse<any> = await get(API_URL, header);
+    const chosenHotelData = response?.data?.chosen_hotel?.data;
+    return {success: true, data: chosenHotelData};
   } catch (error) {
     console.error('Getting Data error:', error);
     return {success: false, error};

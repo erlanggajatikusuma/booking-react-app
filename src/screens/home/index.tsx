@@ -75,7 +75,7 @@ export const HomeScreen: FC<CompositeScreenProps<any, any>> = props => {
     });
   }, []);
 
-  const renderItem: ListRenderItem<ItemT> = info => {
+  const renderItem: ListRenderItem<any> = info => {
     const {index, item} = info;
     return <Item index={index} item={item} navigation={navigation} />;
   };

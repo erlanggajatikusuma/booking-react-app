@@ -65,11 +65,17 @@ const FOOTER: ViewStyle = {
 
 const icon = require('../../../../assets/icon/trash.png');
 
+type guestProps = {
+  id: number;
+  name: string;
+  gender: string;
+};
+
 type ItemProps = {
-  handleValueChange?: (itemValue: T, itemIndex: number, id: number) => void;
-  onChangeText?: ((id: number, text: string) => void) | undefined;
-  onDelete?: (id: number) => void;
-  item: any;
+  handleValueChange: (itemValue: any, itemIndex: number, id: number) => void;
+  onChangeText: (id: number, text: string) => void;
+  onDelete: (id: number) => void;
+  item: guestProps;
 };
 
 function arePropsEqual(prevProps: any, nextProps: any) {
@@ -129,7 +135,7 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
     return disable;
   }, [guests]);
 
-  const handleValueChange = (itemValue: T, itemIndex: number, id: number) => {
+  const handleValueChange = (itemValue: any, itemIndex: number, id: number) => {
     setGuests(prevState =>
       prevState.map(guest =>
         guest.id === id ? {...guest, gender: itemValue} : guest,
@@ -187,7 +193,7 @@ export const GuestScreen: FC<CompositeScreenProps<any, any>> = props => {
     navigation.goBack();
   };
 
-  const renderItem: ListRenderItem<ItemT> = info => {
+  const renderItem: ListRenderItem<any> = info => {
     const {item} = info;
 
     return (

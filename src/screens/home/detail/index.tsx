@@ -138,7 +138,7 @@ export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
     const data = hotel?.chosen_hotel_params;
     const dateIn = new Date(data.check_in);
     const dateOut = new Date(data.check_out);
-    const options = {day: 'numeric', month: 'long', year: 'numeric'};
+    const options = {day: 'numeric', month: 'long', year: 'numeric'} as const;
     const checkin = dateIn.toLocaleDateString('id-ID', options);
     const checkout = dateOut.toLocaleDateString('id-ID', options);
     return {checkin, checkout};
@@ -156,7 +156,7 @@ export const DetailScreen: FC<CompositeScreenProps<any, any>> = props => {
 
   const handleNavigate = () => navigation.navigate('App.Home.Detail.Guest');
 
-  const renderItem: ListRenderItem<ItemT> = info => {
+  const renderItem: ListRenderItem<any> = info => {
     const {item} = info;
     return <Item item={item} />;
   };

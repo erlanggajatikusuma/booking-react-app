@@ -16,7 +16,7 @@ import {ScreenProps} from './screen.props';
 
 const isIos = Platform.OS === 'ios';
 
-const majorVersionIOS = parseInt(Platform.Version, 10);
+const majorVersionIOS = parseInt(String(Platform.Version), 10);
 
 const CustomStatusBar = (props: StatusBarPropsAndroid & StatusBarProps) => {
   const insets = useSafeAreaInsets();
