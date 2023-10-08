@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Component renders correctly with Image as children 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#6C5ECF",
+      "borderRadius": 6,
+      "justifyContent": "center",
+      "opacity": 1,
+      "paddingHorizontal": 8,
+      "paddingVertical": 12,
+    }
+  }
+>
+  <Image
+    source={123}
+  />
+</View>
+`;
+
+exports[`Button Component renders correctly with Text as children 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#6C5ECF",
+      "borderRadius": 6,
+      "justifyContent": "center",
+      "opacity": 1,
+      "paddingHorizontal": 8,
+      "paddingVertical": 12,
+    }
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "color": "white",
+          "fontSize": 16,
+          "fontWeight": "600",
+          "paddingHorizontal": 12,
+        },
+        undefined,
+      ]
+    }
+  >
+    Click me
+  </Text>
+</View>
+`;
+
+exports[`Button Component renders correctly with disabled state 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": true,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "gray",
+      "borderRadius": 6,
+      "justifyContent": "center",
+      "opacity": 1,
+      "paddingHorizontal": 8,
+      "paddingVertical": 12,
+    }
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "color": "white",
+          "fontSize": 16,
+          "fontWeight": "600",
+          "paddingHorizontal": 12,
+        },
+        undefined,
+      ]
+    }
+  >
+    Click Me
+  </Text>
+</View>
+`;
+
+exports[`Button Component renders correctly with link preset 1`] = `
+<View
+  accessibilityState={
+    {
+      "busy": undefined,
+      "checked": undefined,
+      "disabled": undefined,
+      "expanded": undefined,
+      "selected": undefined,
+    }
+  }
+  accessibilityValue={
+    {
+      "max": undefined,
+      "min": undefined,
+      "now": undefined,
+      "text": undefined,
+    }
+  }
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    {
+      "alignItems": "flex-start",
+      "backgroundColor": "transparent",
+      "justifyContent": "center",
+      "opacity": 1,
+      "paddingHorizontal": 0,
+      "paddingVertical": 0,
+    }
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "borderBottomWidth": 1,
+          "borderColor": "#6C5ECF",
+          "color": "#6C5ECF",
+          "fontSize": 16,
+          "paddingHorizontal": 0,
+          "paddingVertical": 0,
+        },
+        undefined,
+      ]
+    }
+  >
+    Click Me
+  </Text>
+</View>
+`;

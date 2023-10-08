@@ -13,15 +13,14 @@ const header = {
 
 interface GetFunctionResponse {
   success: boolean;
-  data?: any; // Update this to the actual type of your product data
+  data?: any; // Update this to the actual type of your data
   error?: any; // Update this to the actual error type
 }
 
 export const getBookingDetail = async (): Promise<GetFunctionResponse> => {
   try {
     const response: AxiosResponse<any> = await get(API_URL, header);
-    const chosenHotelData = response?.data?.chosen_hotel?.data;
-    return {success: true, data: chosenHotelData};
+    return {success: true, data: response};
   } catch (error) {
     console.error('Getting Data error:', error);
     return {success: false, error};

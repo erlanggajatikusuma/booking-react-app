@@ -2,15 +2,6 @@ import React, {useCallback} from 'react';
 import {TouchableOpacity, Text, ViewStyle, TextStyle, View} from 'react-native';
 import {color} from '../../theme';
 
-interface RadioButtonProps {
-  label: string;
-  value: number;
-  selected: boolean;
-  onSelect: (value: number) => void;
-  style?: ViewStyle;
-  labelStyle?: TextStyle;
-}
-
 const CONTAINER: ViewStyle = {
   flexDirection: 'row',
   alignItems: 'center',
@@ -38,6 +29,15 @@ const LABEL: TextStyle = {
   fontSize: 16,
 };
 
+interface RadioButtonProps {
+  label: string;
+  value: number;
+  selected: boolean;
+  onSelect: (value: number) => void;
+  style?: ViewStyle;
+  labelStyle?: TextStyle;
+}
+
 export const RadioButton: React.FC<RadioButtonProps> = React.memo(
   ({label, value, selected, onSelect, style, labelStyle}) => {
     const handlePress = useCallback(() => {
@@ -45,7 +45,10 @@ export const RadioButton: React.FC<RadioButtonProps> = React.memo(
     }, [onSelect, value]);
 
     return (
-      <TouchableOpacity onPress={handlePress} style={[CONTAINER, style]}>
+      <TouchableOpacity
+        onPress={handlePress}
+        style={[CONTAINER, style]}
+        testID="radio-outer">
         <View
           style={[
             RADIO,

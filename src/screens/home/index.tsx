@@ -69,7 +69,7 @@ export const HomeScreen: FC<CompositeScreenProps<any, any>> = props => {
   useEffect(() => {
     getBookingDetail().then(result => {
       if (result.success) {
-        const data = [result.data?.get_chosen_hotel];
+        const data = [result.data.chosen_hotel.data.get_chosen_hotel];
         setHotel(data);
       }
     });
@@ -85,6 +85,7 @@ export const HomeScreen: FC<CompositeScreenProps<any, any>> = props => {
       preset="scroll"
       backgroundColor="lightgray"
       backgroundBar="lightgray"
+      statusBar="dark-content"
       style={CONTAINER}
       safeAreaEdges={['top', 'bottom']}>
       <FlatList data={hotel} renderItem={renderItem} scrollEnabled={false} />

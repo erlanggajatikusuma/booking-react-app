@@ -26,7 +26,7 @@ export const AppNavigator = () => {
     <Stack.Navigator>
       <Stack.Screen
         name="App.Home"
-        options={{headerShown: false, title: ''}}
+        options={{headerShown: false, title: '', statusBarColor: 'lightgray'}}
         component={HomeScreen}
       />
       <Stack.Screen
